@@ -24,31 +24,31 @@ class BroadcastWidget : AppWidgetProvider() {
         if (ACTION_SIMPLE_APP_WIDGET == intent.action) {
             counter++
             val views = RemoteViews(context.packageName, R.layout.broadcast_widget)
-            views.setTextViewText(R.id.tvWidget, counter.toString())
+            views.setTextViewText(R.id.textView, counter.toString())
             val appWidget = ComponentName(context, BroadcastWidget::class.java)
             val appWidgetManager = AppWidgetManager.getInstance(context)
             appWidgetManager.updateAppWidget(appWidget, views)
         }
     }
 
+    fun updateAppWidget(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int
+    ) {
+        val views = RemoteViews(context.packageName, R.layout.broadcast_widget)
+        val intent = Intent(context, BroadcastWidget::class.java).apply {
+            action = ACTION_SIMPLE_APP_WIDGET
+        }
+        val pendingIntent = PendingIntent.getBroadcast(
+          context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        views.setOnClickPendingIntent(R.id.textView, pendingIntent)
+        appWidgetManager.updateAppWidget(appWidgetId, views)
+    }
+
     companion object {
         private const val ACTION_SIMPLE_APP_WIDGET = "ACTION_SIMPLE_APP_WIDGET"
         private var counter = 0
-
-        fun updateAppWidget(
-            context: Context,
-            appWidgetManager: AppWidgetManager,
-            appWidgetId: Int
-        ) {
-            val views = RemoteViews(context.packageName, R.layout.broadcast_widget)
-            val intent = Intent(context, BroadcastWidget::class.java).apply {
-                action = ACTION_SIMPLE_APP_WIDGET
-            }
-            val pendingIntent = PendingIntent.getBroadcast(
-              context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
-            )
-            views.setOnClickPendingIntent(R.id.tvWidget, pendingIntent)
-            appWidgetManager.updateAppWidget(appWidgetId, views)
-        }
     }
 }

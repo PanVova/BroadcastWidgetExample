@@ -12,27 +12,11 @@
       android:orientation="horizontal"
       >
     <Button
-        android:id="@+id/button_pink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:backgroundTint="@color/colorAccent"
-        android:text="@string/button_pink"
-        />
-    <Button
-        android:id="@+id/button_increase_count"
+        android:id="@+id/increase_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/increase_count"
-        />
-    <Button
-        android:id="@+id/button_blue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="@string/button_blue"
         />
   </LinearLayout>
   <TextView

@@ -10,7 +10,7 @@ import android.os.Build.VERSION_CODES
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 
-class BroadcastWidget : AppWidgetProvider() {
+class NewWidget : AppWidgetProvider() {
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -24,26 +24,18 @@ class BroadcastWidget : AppWidgetProvider() {
     @RequiresApi(VERSION_CODES.M)
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-        val views = RemoteViews(context.packageName, R.layout.broadcast_widget)
+        val views = RemoteViews(context.packageName, R.layout.new_widget)
 
         when (intent.action) {
             INCREASE_COUNT -> {
                 counter++
                 views.setTextViewText(R.id.textView, counter.toString())
             }
-            COLOR_BLUE -> {
-                val color = context.getColor(R.color.colorPrimary)
-                views.setBackgroundColor(color)
-            }
-            COLOR_PINK -> {
-                val color = context.getColor(R.color.colorAccent)
-                views.setBackgroundColor(color)
-            }
         }
 
-        val broadcastWidget = ComponentName(context, BroadcastWidget::class.java)
+        val appWidget = ComponentName(context, NewWidget::class.java)
         val appWidgetManager = AppWidgetManager.getInstance(context)
-        appWidgetManager.updateAppWidget(broadcastWidget, views)
+        appWidgetManager.updateAppWidget(appWidget, views)
     }
 
     private fun updateAppWidget(
@@ -51,15 +43,11 @@ class BroadcastWidget : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int
     ) {
-        val views = RemoteViews(context.packageName, R.layout.broadcast_widget)
+        val views = RemoteViews(context.packageName, R.layout.new_widget)
 
         val increaseCountButton = setupButton(context = context, action = INCREASE_COUNT)
-        val colorBlueButton = setupButton(context = context, action = COLOR_BLUE)
-        val colorPinkButton = setupButton(context = context, action = COLOR_PINK)
 
-        views.setOnClickPendingIntent(R.id.button_increase_count, increaseCountButton)
-        views.setOnClickPendingIntent(R.id.button_blue, colorBlueButton)
-        views.setOnClickPendingIntent(R.id.button_pink, colorPinkButton)
+        views.setOnClickPendingIntent(R.id.increase_count, increaseCountButton)
 
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
@@ -68,7 +56,7 @@ class BroadcastWidget : AppWidgetProvider() {
         context: Context,
         action: String
     ): PendingIntent {
-        val intent = Intent(context, BroadcastWidget::class.java).apply {
+        val intent = Intent(context, NewWidget::class.java).apply {
             this.action = action
         }
         return PendingIntent.getBroadcast(
@@ -78,9 +66,6 @@ class BroadcastWidget : AppWidgetProvider() {
 
     companion object {
         private const val INCREASE_COUNT = "INCREASE_COUNT"
-        private const val COLOR_BLUE = "COLOR_BLUE"
-        private const val COLOR_PINK = "COLOR_PINK"
-
         private var counter = 0
     }
 }

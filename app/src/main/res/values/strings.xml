@@ -2,4 +2,7 @@
     <string name="app_name">BroadcastWidgetExample</string>
     <string name="appwidget_text">Tap It!</string>
     <string name="add_widget">Add widget</string>
+  <string name="button_pink">PINK</string>
+  <string name="increase_count">Increase count</string>
+  <string name="button_blue">BLUE</string>
 </resources>
